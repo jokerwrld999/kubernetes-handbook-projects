@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres-deployment
+  namespace: dev
 spec:
   replicas: 1
   selector:
@@ -27,6 +28,9 @@ spec:
               subPath: postgres
           env:
             - name: POSTGRES_PASSWORD
-              value: 63eaQB9wtLqmNBpg
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
             - name: POSTGRES_DB
               value: notesdb
